@@ -1,37 +1,54 @@
 # ✈️ NASA Predictive Maintenance using Random Forest Regression
 
-## 📌 Project Overview
-
-This project predicts the **Remaining Useful Life (RUL)** of aircraft engines using the **NASA CMAPSS Turbofan Engine Degradation Simulation Dataset**. The objective is to estimate how many operational cycles remain before an engine reaches failure, enabling predictive maintenance and reducing unexpected downtime.
-
-A **Random Forest Regressor** was trained and optimized using feature importance analysis, manual hyperparameter tuning, and GridSearchCV.
+Predicting the **Remaining Useful Life (RUL)** of aircraft engines using the **NASA CMAPSS Turbofan Engine Degradation Dataset (FD001)** and **Random Forest Regression**.
 
 ---
 
-## 🎯 Problem Statement
+# 📖 Project Overview
 
-Traditional maintenance schedules often replace components either too early or after failure. Predictive Maintenance aims to estimate the remaining lifespan of equipment so maintenance can be scheduled at the optimal time.
+Predictive Maintenance uses historical sensor measurements to estimate how many operational cycles remain before an aircraft engine reaches failure.
 
-This project focuses on predicting the Remaining Useful Life (RUL) of aircraft engines using historical sensor measurements.
+This project develops a complete Machine Learning pipeline that predicts the **Remaining Useful Life (RUL)** of aircraft engines using the NASA CMAPSS dataset.
+
+The project covers the complete ML workflow, including:
+
+- Data Exploration
+- Data Preprocessing
+- Feature Engineering
+- Random Forest Regression
+- Feature Importance Analysis
+- Feature Selection
+- Hyperparameter Tuning
+- GridSearchCV
+- Model Evaluation
 
 ---
 
-## 📂 Dataset
+# 🎯 Objective
 
-- **Dataset:** NASA CMAPSS Turbofan Engine Degradation Dataset
-- **Subset Used:** FD001
-- **Target Variable:** Remaining Useful Life (RUL)
+Build a Machine Learning model capable of predicting the Remaining Useful Life (RUL) of aircraft engines to support predictive maintenance and reduce unexpected failures.
+
+---
+
+# 📂 Dataset
+
+**Dataset:** NASA CMAPSS Turbofan Engine Degradation Simulation Dataset
+
+**Subset Used:** FD001
 
 The dataset contains:
 
 - Engine ID
 - Cycle Number
 - Operational Settings
-- Multiple Sensor Measurements
+- Sensor Measurements
+- Remaining Useful Life (RUL)
+
+> **Note:** The dataset is publicly available from NASA and is not included in this repository.
 
 ---
 
-## 🛠 Technologies Used
+# 🛠 Technologies Used
 
 - Python
 - Pandas
@@ -43,117 +60,134 @@ The dataset contains:
 
 ---
 
-## 🔄 Machine Learning Workflow
+# 🔄 Machine Learning Workflow
 
-1. Data Loading
-2. Exploratory Data Analysis (EDA)
-3. Data Preprocessing
-4. Feature Engineering (Remaining Useful Life)
-5. Train-Test Split
-6. Random Forest Regression
-7. Model Evaluation
-8. Feature Importance Analysis
-9. Feature Selection
-10. Manual Hyperparameter Tuning
-11. GridSearchCV
-12. Save Final Model
+1. Import Libraries
+2. Load Dataset
+3. Exploratory Data Analysis (EDA)
+4. Data Preprocessing
+5. Feature Engineering (RUL)
+6. Train-Test Split
+7. Random Forest Regression
+8. Model Evaluation
+9. Feature Importance Analysis
+10. Feature Selection
+11. Manual Hyperparameter Tuning
+12. GridSearchCV
+13. Save Final Model
 
 ---
 
-## 📊 Model Performance
+# 📊 Model Performance
 
-### Baseline Random Forest
+## Baseline Random Forest
 
 | Metric | Score |
-|---------|-------|
+|---------|-------:|
 | MAE | 25.4504 |
 | RMSE | 35.9344 |
 | R² | 0.7174 |
 
 ---
 
-### Final Model
+## Final Selected Model
 
-Hyperparameters:
+Although GridSearchCV selected **300 trees** with **max_depth = 10**, evaluation on the unseen test dataset showed that the manually tuned model performed slightly better.
 
-- n_estimators = 200
-- max_depth = 10
+### Final Hyperparameters
+
+- Random Forest Regressor
+- n_estimators = **200**
+- max_depth = **10**
+- random_state = **42**
+
+### Final Performance
 
 | Metric | Score |
-|---------|-------|
-| MAE | 25.2508 |
-| RMSE | 35.5902 |
-| R² | 0.7228 |
+|---------|-------:|
+| MAE | **25.2508** |
+| RMSE | **35.5902** |
+| R² | **0.7228** |
 
 ---
 
-## 🔍 Feature Importance
+# 📈 Feature Importance
 
-Feature importance analysis was performed using the trained Random Forest model to identify the most influential variables.
+Feature importance analysis showed that:
 
-Important observations:
+- Engine cycle was the most influential feature.
+- Sensor 11 contributed significantly to prediction accuracy.
+- Low-importance sensors were evaluated through feature selection experiments.
+- Removing low-importance features did not improve overall model performance.
 
-- Engine cycle was the most significant predictor.
-- Sensor 11 contributed strongly to prediction accuracy.
-- Several low-importance sensors were removed and evaluated.
-- Feature selection slightly reduced model performance, demonstrating that even low-importance features can collectively improve predictions.
-
----
-
-## ⚙ Hyperparameter Tuning
-
-Manual tuning experiments were performed by adjusting:
-
-- Number of Trees (`n_estimators`)
-- Maximum Tree Depth (`max_depth`)
-
-GridSearchCV with **5-Fold Cross Validation** was then used to automatically search for the optimal hyperparameter combination.
+The complete feature importance visualization is available in the **Results** folder.
 
 ---
 
-## 💾 Model Deployment
+# ⚙ Hyperparameter Tuning
 
-The final trained model was saved using **Joblib**.
+The model was improved through two stages:
 
-```python
-joblib.dump(best_model, "predictive_maintenance_rf.pkl")
-```
+### Manual Hyperparameter Tuning
 
-The saved model can later be loaded without retraining.
+- Increased the number of trees
+- Controlled tree depth
+- Compared multiple Random Forest models
+
+### Automated Hyperparameter Tuning
+
+GridSearchCV with **5-Fold Cross Validation** was used to evaluate multiple hyperparameter combinations automatically.
 
 ---
 
-## 📁 Project Structure
+# 📁 Repository Structure
 
 ```
-NASA_Predictive_Maintenance/
+NASA-Predictive-Maintenance
 │
-├── Data/
-├── Models/
-│   └── predictive_maintenance_rf.pkl
 ├── Notebooks/
-│   └── 01_NASA_Predictive_Maintenance.ipynb
+│   └── NASA_Predictive_Maintenance_Random_Forest.ipynb
+│
 ├── Results/
+│   ├── feature_importance.png
+│   ├── model_comparison.csv
+│   └── final_metrics.txt
+│
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── .gitignore
 ```
 
 ---
 
-## 🚀 Future Improvements
+# 📄 Results
+
+The Results folder contains:
+
+- Feature Importance Plot
+- Model Comparison Table
+- Final Evaluation Metrics
+
+---
+
+# 🚀 Future Improvements
 
 - XGBoost Regression
 - LightGBM
-- LSTM for time-series prediction
-- Streamlit Web Application
-- Real-time predictive maintenance dashboard
+- LSTM-based Remaining Useful Life Prediction
+- Streamlit Deployment
+- Real-time Predictive Maintenance Dashboard
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 **Vyshnav P S**
 
-B.Tech Artificial Intelligence
+B.Tech in Artificial Intelligence
 
-Machine Learning | Predictive Analytics | AI Engineer
+Interested in:
+- Machine Learning
+- Artificial Intelligence
+- Predictive Analytics
+- Aviation AI
