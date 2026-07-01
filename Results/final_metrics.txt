@@ -1,0 +1,6 @@
+Final Random Forest Model Performance
+========================================
+
+MAE : 25.2508
+RMSE: 35.5901
+R²  : 0.7228
